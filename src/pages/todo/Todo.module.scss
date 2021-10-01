@@ -1,0 +1,93 @@
+.Todo {
+   ul {
+      width: 300px;
+      > * {
+         margin: 8px 0;
+      }
+   }
+}
+
+.Task {
+   position: relative;
+   height: 32px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   .taskBody {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      border: none;
+      outline: none;
+      border-radius: 4px;
+      background: rgba(#1e1e1e, 0.1);
+      transition: opacity 200ms;
+   }
+   &.done .taskBody {
+      text-decoration: line-through;
+      opacity: 0.6;
+   }
+
+   $size: 24px;
+   $line: 4px;
+
+   .checkbox,
+   .remove {
+      cursor: pointer;
+      position: absolute;
+      margin: 8px;
+      width: $size;
+      height: $size;
+      box-sizing: border-box;
+      border-radius: 6px;
+   }
+
+   .checkbox {
+      right: 100%;
+      border: $line solid #94928e;
+      background: rgba(#1e1e1e, 0.05);
+      transition-property: background, border-width, opacity;
+      transition-duration: 200ms;
+   }
+   &.done .checkbox {
+      border-width: $line * 2;
+      background: #94928e;
+      opacity: 0.6;
+   }
+
+   .remove {
+      opacity: 0;
+      left: 100%;
+      transition: opacity 200ms 100ms;
+
+      &::after,
+      &::before {
+         left: 50%;
+         top: 50%;
+         height: $size;
+         width: $line;
+         margin-left: $line / -2;
+         margin-top: $size / -2;
+         content: "";
+         position: absolute;
+         background: #bebcb8;
+         transform: rotate(45deg);
+         border-radius: 99px;
+         transition: background 200ms;
+      }
+      &::before {
+         transform: rotate(135deg);
+      }
+
+      &:hover {
+         &::after,
+         &::before {
+            background: #94928e;
+         }
+      }
+   }
+   &:hover .remove {
+      opacity: 1;
+   }
+}
