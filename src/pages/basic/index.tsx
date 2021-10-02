@@ -25,7 +25,9 @@ const Basic: Component = () => {
 			<For each={users()} fallback={<div>Loading...</div>}>
 				{user => <User name={user.name} img={user.picture.thumbnail} />}
 			</For>
-			<button onclick={refetch}>Fetch more!</button>
+			<button class="button" onclick={refetch}>
+				Fetch more!
+			</button>
 		</>
 	)
 }

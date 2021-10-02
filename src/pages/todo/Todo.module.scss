@@ -1,8 +1,36 @@
 .Todo {
-   ul {
-      width: 300px;
-      > * {
-         margin: 8px 0;
+   :global {
+      ul {
+         position: relative;
+         min-height: 128px;
+         width: 300px;
+         > * {
+            margin: 8px 0;
+         }
+
+         .no-tasks {
+            color: #94928e;
+         }
+      }
+
+      .button {
+         cursor: pointer;
+         height: 32px;
+         color: #1e1e1e;
+         background: #bebcb8;
+         border: none;
+         border-radius: 4px;
+         font-weight: 600;
+         transition-property: background, opacity;
+         transition-duration: 200ms;
+
+         &:hover {
+            background: #94928e;
+         }
+         &:disabled {
+            opacity: 0.6;
+            color: #1e1e1e;
+         }
       }
    }
 }
@@ -89,5 +117,31 @@
    }
    &:hover .remove {
       opacity: 1;
+   }
+}
+
+.Input {
+   display: flex;
+   height: 32px;
+   margin-bottom: 16px;
+
+   :global {
+      .name {
+         flex-grow: 1;
+         margin-right: 8px;
+         padding-left: 8px;
+         background: rgba(#1e1e1e, 0.1);
+         border: #bebcb8 solid 2px;
+         border-radius: 4px;
+         &:hover {
+            border-color: #94928e;
+         }
+      }
+   }
+}
+
+.bulkActions {
+   > * {
+      margin: 0 4px;
    }
 }
