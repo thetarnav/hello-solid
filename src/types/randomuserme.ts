@@ -25,7 +25,7 @@ export enum Gender {
 
 export interface ID {
 	name: string
-	value: null | string
+	value: string
 }
 
 export interface Location {
@@ -33,7 +33,7 @@ export interface Location {
 	city: string
 	state: string
 	country: string
-	postcode: number | string
+	postcode: string
 	coordinates: Coordinates
 	timezone: Timezone
 }

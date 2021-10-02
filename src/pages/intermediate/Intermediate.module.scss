@@ -1,0 +1,53 @@
+.header {
+   margin-top: 100px;
+   margin-bottom: 50px;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   & > * {
+      margin: 8px 0;
+   }
+
+   :global {
+      .search {
+         display: flex;
+         flex-direction: column;
+         align-items: flex-start;
+         label {
+            font-size: 14px;
+         }
+      }
+   }
+}
+
+.table {
+   font-size: 12px;
+   margin-bottom: 100px;
+   background: lightblue;
+
+   :global {
+      &,
+      th,
+      td {
+         border: 1px solid black;
+         border-collapse: collapse;
+      }
+      thead {
+         background: lightsalmon;
+      }
+      th {
+         cursor: pointer;
+         user-select: none;
+         &.sorted {
+            background: red;
+         }
+      }
+
+      td,
+      th {
+         max-width: 60px;
+         text-overflow: ellipsis;
+         word-wrap: break-word;
+      }
+   }
+}

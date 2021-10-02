@@ -1,27 +1,47 @@
-import { Component, lazy } from 'solid-js'
-import { Routes, Route, Link } from 'solid-app-router'
+import { Component, For, lazy } from 'solid-js'
+import { Routes, Route, Link, useRoutes } from 'solid-app-router'
 
-const Basic = lazy(() => import('./pages/basic'))
-const Todo = lazy(() => import('./pages/todo'))
+const routes = [
+	{
+		path: '/todo',
+		component: lazy(() => import('./pages/todo')),
+	},
+	{
+		path: '/intermediate',
+		component: lazy(() => import('./pages/intermediate')),
+	},
+	{
+		path: '/',
+		component: lazy(() => import('./pages/basic')),
+	},
+	{
+		path: '/basic',
+		component: lazy(() => import('./pages/basic')),
+	},
+	{
+		path: '/*all',
+		component: lazy(() => import('./pages/basic')),
+	},
+]
 
-const App: Component = () => (
-	<>
-		<nav>
-			<Link class="nav" href="/">
-				Home
-			</Link>
-			<Link class="nav" href="/basic">
-				Basic
-			</Link>
-			<Link class="nav" href="/todo">
-				Todo
-			</Link>
-		</nav>
-		<Routes>
-			<Route path="/basic" element={<Basic />} />
-			<Route path="/todo" element={<Todo />} />
-		</Routes>
-	</>
-)
+const App: Component = () => {
+	const Routes = useRoutes(routes)
+	return (
+		<>
+			<nav>
+				<Link class="nav" href="/basic">
+					Basic
+				</Link>
+				<Link class="nav" href="/todo">
+					Todo
+				</Link>
+				<Link class="nav" href="/intermediate">
+					Intermediate
+				</Link>
+			</nav>
+			<Routes />
+		</>
+	)
+}
 
 export default App
