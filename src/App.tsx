@@ -1,5 +1,5 @@
-import { Component, For, lazy } from 'solid-js'
-import { Routes, Route, Link, useRoutes } from 'solid-app-router'
+import { Component, lazy } from 'solid-js'
+import { Link, useRoutes } from 'solid-app-router'
 
 const routes = [
 	{
@@ -9,6 +9,10 @@ const routes = [
 	{
 		path: '/intermediate',
 		component: lazy(() => import('./pages/intermediate')),
+	},
+	{
+		path: '/slider',
+		component: lazy(() => import('./pages/slider')),
 	},
 	{
 		path: '/',
@@ -37,6 +41,9 @@ const App: Component = () => {
 				</Link>
 				<Link class="nav" href="/intermediate">
 					Intermediate
+				</Link>
+				<Link class="nav" href="/slider">
+					Slider
 				</Link>
 			</nav>
 			<Routes />

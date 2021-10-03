@@ -1,0 +1,69 @@
+.slideListActions {
+   margin-bottom: 32px;
+   > * {
+      margin: 0 8px;
+   }
+}
+
+.Slider {
+   position: relative;
+   width: 100vw;
+   height: 40vw;
+   overflow: hidden;
+
+   :global {
+      .Slide {
+         width: 30vw;
+         height: 20vw;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         cursor: pointer;
+
+         background-image: var(--img);
+         background-position: center;
+         background-size: cover;
+         border-radius: 8px;
+
+         position: absolute;
+         left: calc(50% - 15vw);
+         top: calc(50% - 10vw);
+         transform: translate(var(--x, 0), var(--y, 0));
+         opacity: var(--o, 1);
+         transition-property: transform, opacity;
+         transition-duration: 400ms;
+
+         &.center {
+            --y: 10vw;
+         }
+         &.left {
+            --y: 5vw;
+            --x: -40vw;
+            --o: 0.8;
+         }
+         &.right {
+            --y: 5vw;
+            --x: 40vw;
+            --o: 0.8;
+         }
+         &.far-left {
+            --x: -65vw;
+            --o: 0;
+         }
+         &.far-right {
+            --x: 65vw;
+            --o: 0;
+         }
+         &.hidden {
+            --o: 0;
+         }
+
+         div {
+            padding: 12px;
+            background: #000;
+            color: white;
+            font-weight: 700;
+         }
+      }
+   }
+}
