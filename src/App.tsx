@@ -15,6 +15,10 @@ const routes = [
 		component: lazy(() => import('./pages/slider')),
 	},
 	{
+		path: '/kanban',
+		component: lazy(() => import('./pages/kanban')),
+	},
+	{
 		path: '/',
 		component: lazy(() => import('./pages/basic')),
 	},
@@ -44,6 +48,9 @@ const App: Component = () => {
 				</Link>
 				<Link class="nav" href="/slider">
 					Slider
+				</Link>
+				<Link class="nav" href="/kanban">
+					Kanban
 				</Link>
 			</nav>
 			<Routes />
