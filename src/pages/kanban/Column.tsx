@@ -4,6 +4,7 @@ import { useClass } from '@/utils/solid'
 import Sortable from 'sortablejs'
 
 import styles from './Kanban.module.scss'
+import { useNavigate } from 'solid-app-router'
 
 interface Props extends ColumnData {
 	onMove?: (oldColumn: string, newIndex: number, oldIndex: number) => void
@@ -13,6 +14,8 @@ interface Props extends ColumnData {
 const Column: Component<Props> = props => {
 	let body!: HTMLDivElement
 	let sortable: Sortable
+
+	const navigate = useNavigate()
 
 	const onUpdate = (e: Sortable.SortableEvent) => {
 		const oldIndex = e.oldIndex,
@@ -33,6 +36,7 @@ const Column: Component<Props> = props => {
 		sortable = new Sortable(body, {
 			group: 'kanban',
 			animation: 150,
+			ghostClass: 'ghost',
 			// within the column
 			onUpdate,
 			// added to column
@@ -52,7 +56,10 @@ const Column: Component<Props> = props => {
 			<div ref={body} class="body" data-column={props.name}>
 				<For each={props.items}>
 					{item => (
-						<div class="item">
+						<div
+							class="item"
+							onclick={() => navigate('/kanban/' + item.id)}
+						>
 							<p>{item.title}</p>
 						</div>
 					)}

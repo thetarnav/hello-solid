@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid'
 import { Component, createEffect, For } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
+import { Outlet, useParams } from 'solid-app-router'
 
 import styles from './Kanban.module.scss'
 
@@ -65,6 +66,45 @@ const [store, setStore] = createStore<Record<ColumnName, ColumnData>>({
 	},
 })
 const columns = () => Object.keys(store) as ColumnName[]
+const columnsValues = () => Object.values(store)
+
+const findItem = (items: Item[], id: string): Item | undefined =>
+	items.find(item => item.id === id)
+
+export const getItemById = (
+	id: string,
+): { column: ColumnName; title: string; desc: string } | undefined => {
+	let item: Item | undefined
+	const column = columnsValues().find(
+		({ items }) => (item = findItem(items, id)),
+	)?.name
+	return item && column
+		? {
+				column,
+				title: item.title,
+				desc: item.desc,
+		  }
+		: undefined
+}
+
+export const editItem = (
+	column: ColumnName,
+	id: string,
+	title: string,
+	desc: string,
+) => {
+	setStore(
+		column,
+		'items',
+		produce<Item[]>(items => {
+			const item = findItem(items, id)
+			if (item) {
+				item.title = title
+				item.desc = desc
+			}
+		}),
+	)
+}
 
 const logColumns = () => {
 	const clean = mapValues(store, a => {
@@ -75,6 +115,8 @@ const logColumns = () => {
 }
 
 const Page: Component = () => {
+	const params = useParams()
+
 	const changeColumn = (
 		newColumn: ColumnName,
 		oldKey: string,
@@ -83,18 +125,11 @@ const Page: Component = () => {
 	) => {
 		const oldColumn = isColumnName(oldKey)
 		if (!oldColumn) return
-		let item: Item
-		// remove item from old column
 		setStore(
-			oldColumn,
-			'items',
-			produce<Item[]>(items => (item = items.splice(oldIndex, 1)[0])),
-		)
-		// and add it to it's new column
-		setStore(
-			newColumn,
-			'items',
-			produce<Item[]>(items => items.splice(newIndex, 0, item)),
+			produce<Record<ColumnName, ColumnData>>(columns => {
+				const item = columns[oldColumn]['items'].splice(oldIndex, 1)[0]
+				columns[newColumn]['items'].splice(newIndex, 0, item)
+			}),
 		)
 	}
 
@@ -108,22 +143,25 @@ const Page: Component = () => {
 	})
 
 	return (
-		<main class={styles.kanban}>
-			<For each={columns()}>
-				{name => {
-					let { title, items } = store[name]
-					return (
-						<Column
-							name={name}
-							title={title}
-							items={items}
-							onMove={(...args) => changeColumn(name, ...args)}
-							onUpdate={(to, from) => moveItem(name, to, from)}
-						/>
-					)
-				}}
-			</For>
-		</main>
+		<>
+			<main class={styles.kanban}>
+				<For each={columns()}>
+					{name => {
+						let { title, items } = store[name]
+						return (
+							<Column
+								name={name}
+								title={title}
+								items={items}
+								onMove={(...args) => changeColumn(name, ...args)}
+								onUpdate={(to, from) => moveItem(name, to, from)}
+							/>
+						)
+					}}
+				</For>
+			</main>
+			<Outlet />
+		</>
 	)
 }
 

@@ -19,6 +19,16 @@ const routes = [
 		component: lazy(() => import('./pages/kanban')),
 	},
 	{
+		path: '/kanban',
+		component: lazy(() => import('./pages/kanban')),
+		children: [
+			{
+				path: '/:id',
+				component: lazy(() => import('./pages/kanban/TaskDetails')),
+			},
+		],
+	},
+	{
 		path: '/',
 		component: lazy(() => import('./pages/basic')),
 	},
